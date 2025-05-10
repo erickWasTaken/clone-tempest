@@ -18,6 +18,10 @@ public:
     Lane(Vector2 extA_, Vector2 extB_, Vector2 origin_, f32 focal_);
     ~Lane() = default;
 
+    inline std::pair<Vector2, Vector2> GetExterior() const{
+        return {extA, extB};
+    }
+
     void Render(SDL_Renderer* renderer, const std::tuple<u8, u8, u8> color) const;
 };
 

@@ -1,4 +1,5 @@
 #include "Map.hpp"
+#include <numeric>
 
 Map::Map(const std::vector<Vector2>& exterior_, bool isContinuous_, f32 focal_, Vector2 origin_) :
 isContinuous{ isContinuous_ },
@@ -18,6 +19,14 @@ void Map::MakeLanes(const std::vector<Vector2>& exterior_){
 	}if(isContinuous){
 		lanes.emplace_back(exterior_[i], exterior_[0], origin, focal);
 	}
+
+	avgLaneWidth = static_cast<f32>(std::accumulate(
+		lanes.begin(), 
+		lanes.end(),
+		0.0,
+		[](f32 a, const Lane& lane){
+			return a + lane.GetExterior().first.vecTo(lane.GetExterior().second).magnitude();
+		})) / lanes.size();
 }
 
 void Map::Load(const std::vector<Vector2>& exterior_, bool isContinuous_, f32 focal_, Vector2 origin_){

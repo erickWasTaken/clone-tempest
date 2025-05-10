@@ -15,6 +15,7 @@ private:
     Vector2 origin;
     std::vector<Lane> lanes;
     u8 selectedLane = 0;
+    f32 avgLaneWidth = 0;
 
     void MakeLanes(const std::vector<Vector2>& exterior_);
 
@@ -34,6 +35,12 @@ public:
 
     u8 GetLeftLaneNum(u8 laneNum_)const;
     u8 GetRightLaneNum(u8 laneNum_)const;
+
+    inline const Lane& GetLane(u8 laneNum)const{
+        assert(laneNum < lanes.size());
+        return lanes[laneNum];
+    }
+    inline f32 GetAvgLaneWidth() const{ return avgLaneWidth; };
 };
 
 #endif
