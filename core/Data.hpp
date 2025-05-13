@@ -7,7 +7,7 @@
 
 class Data{
 private:
-    inline static const std::string DATA_PATH = "/home/blkcat/.data/lost+found/.occult/projects/clone-tempest/data/test_level_data.txt";
+    inline static const std::string DATA_PATH = "/home/waffoe/Drive/lost+found/.occult/projects/clone-tempest/data/test_level_data.txt";
     std::vector<std::vector<Vector2>> exterior;
     std::vector<Vector2> origin;
     std::vector<f32> focal;

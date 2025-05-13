@@ -11,7 +11,7 @@ GameScene::GameScene(u8 level) :
 		levelData.getFocal()[level],
 		levelData.getOrigin()[level]
 	}{
-	
+	std::cout << level % Data::N_FIGURES << std::endl;
 }
 
 void GameScene::Update(f64 delta){

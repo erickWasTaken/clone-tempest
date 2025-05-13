@@ -35,12 +35,18 @@ public:
 
     u8 GetLeftLaneNum(u8 laneNum_)const;
     u8 GetRightLaneNum(u8 laneNum_)const;
+    inline const u8 GetSelectedLaneNum() const{
+        return selectedLane;
+    }
 
     inline const Lane& GetLane(u8 laneNum)const{
         assert(laneNum < lanes.size());
         return lanes[laneNum];
     }
     inline f32 GetAvgLaneWidth() const{ return avgLaneWidth; };
+
+    inline const Vector2& GetOrigin()const{ return origin; };
+    inline f32 GetFocal()const { return focal; };
 };
 
 #endif
