@@ -2,7 +2,7 @@
 #include "../core/Map.hpp"
 #include <SDL2/SDL.h>
 
-void Flipper::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8> color) const{
+void Flipper::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color) const{
 	if(!active)
 		return;
 

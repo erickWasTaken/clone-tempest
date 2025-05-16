@@ -40,7 +40,7 @@ public:
     );
 
     virtual void Update(f64 delta, const Map& map) = 0;
-    virtual void Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8> color) const = 0;
+    virtual void Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color) const = 0;
     inline virtual void Hit(){ Deactivate(); }; 
 
     inline void SetMovementDirection(eDirection direction){

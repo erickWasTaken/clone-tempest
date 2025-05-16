@@ -13,7 +13,7 @@ Lane::Lane(Vector2 extA_, Vector2 extB_, Vector2 origin_, f32 focal_) :
 	unitVector{ axis.Unit() } 
 {}
 
-void Lane::Render(SDL_Renderer* renderer, const std::tuple<u8, u8, u8> color) const{
+void Lane::Render(SDL_Renderer* renderer, const std::tuple<u8, u8, u8>& color) const{
 	SDL_SetRenderDrawColor(
 		renderer,
 		std::get<0>(color),

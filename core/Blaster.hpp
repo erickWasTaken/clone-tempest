@@ -13,7 +13,7 @@ public:
 
     void Clear();
     void Update(f64 delta, const Map& map) override;
-    void Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8> color) const override;
+    void Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color) const override;
 
     inline void Shoot(){ isShooting = true; };
     inline void StopShooting(){ isShooting = false; };

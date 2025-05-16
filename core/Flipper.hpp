@@ -13,7 +13,7 @@ public:
     Flipper(const Flipper& flipper) = default;
     ~Flipper() override = default;
     
-    void Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>color) const override;
+    void Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color) const override;
     void Update(f64 delta, const Map& map) override;
 
     inline void SetFlipDirection(eDirection dir){ flipDirection = dir; };

@@ -5,6 +5,7 @@
 #include "../utils/types.hpp"
 #include "../core/Map.hpp"
 #include "../core/Blaster.hpp"
+#include "../core/SpawnManager.hpp"
 
 class GameScene{
 private:
@@ -13,6 +14,7 @@ private:
     u8 currentFigure;
 
     Blaster player;
+    SpawnManager spawnManager;
 
 public:
     GameScene(u8 level);
@@ -21,6 +23,7 @@ public:
     void Render(SDL_Renderer* ren);
     void ProcessEvent(const SDL_Event& event);
     void Update(f64 delta);
+    inline u8 GetCurrentLevelNum(){ return currentFigure; };
 };
 
 #endif

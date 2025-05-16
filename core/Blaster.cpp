@@ -15,7 +15,7 @@ void Blaster::Update(f64 delta, const Map& map){
 	Move(delta, map);
 }
 
-void Blaster::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8> color)const{
+void Blaster::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color)const{
 	const Lane& lane = map.GetLane(laneNum);
 	auto exterior = lane.GetExterior();
 

@@ -22,7 +22,7 @@ public:
         return {extA, extB};
     }
 
-    void Render(SDL_Renderer* renderer, const std::tuple<u8, u8, u8> color) const;
+    void Render(SDL_Renderer* renderer, const std::tuple<u8, u8, u8>& color) const;
 };
 
 #endif
