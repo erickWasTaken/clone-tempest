@@ -38,7 +38,7 @@ std::vector<Flipper>::iterator SpawnManager::SpawnFlipper(
 	f32 frontProgression,
 	u8 level
 ){
-	return flippers.Create(laneNum, frontProgression * .85, .5, .00005, .0015, FORWARD);
+	return flippers.Create(laneNum, frontProgression, .5, .00005, .0015, FORWARD);
 }
 
 void SpawnManager::Render(

@@ -7,7 +7,7 @@
 
 class Blaster : public GameObject{
 private:
-    Pool<Bullet> bullets {32};
+    Pool<Bullet> bullets {16};
     const f64 shotInterval = 50;
     f64 elapsedTime = 0;
     bool isShooting = false;
@@ -22,6 +22,7 @@ public:
 
     inline void Shoot(){ isShooting = true; };
     inline void StopShooting(){ isShooting = false; };
+    inline std::vector<Bullet>& GetBullets() { return bullets.GetPool(); };
 };
 
 #endif

@@ -17,7 +17,7 @@ void Blaster::Update(f64 delta, const Map& map){
 	if(isShooting){
 		elapsedTime += delta;
 		if(elapsedTime >= shotInterval){
-			bullets.Create(map.GetSelectedLaneNum(), 0, .5, .001, 0, BACKWARD);
+			bullets.Create(map.GetSelectedLaneNum(), 0, .5, .002, 0, BACKWARD);
 			elapsedTime -= shotInterval;
 		}
 	}

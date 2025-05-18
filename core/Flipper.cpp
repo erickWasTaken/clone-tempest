@@ -8,7 +8,7 @@ void Flipper::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8,
 
 	const Lane& lane = map.GetLane(laneNum);
 
-	f32 depth = 1 - (1 - map.GetFocal()) * (1 - frontProgression) * (1 - frontProgression);
+	f32 depth = (1 - (1 - map.GetFocal()) * (1 - frontProgression) * (1 - frontProgression)) - map.GetFocal();
 	f32 height = .2 * map.GetAvgLaneWidth() * (1 - depth);
 
 	Vector2 bottomLeft = lane.GetExterior().first.WeightedMidPointTo(map.GetOrigin(), depth);

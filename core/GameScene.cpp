@@ -18,6 +18,8 @@ void GameScene::Update(f64 delta){
 	player.Update(delta, map);
 	spawnManager.Update(delta, map, GetCurrentLevelNum());
 	map.Select(player.getLaneNum());
+
+	HandleCollisions(spawnManager.GetFlippers(), 200);
 }
 
 void GameScene::ProcessEvent(const SDL_Event& event){
@@ -56,7 +58,32 @@ void GameScene::ProcessEvent(const SDL_Event& event){
 }
 
 void GameScene::Render(SDL_Renderer* ren){
-	map.Render(ren, {0, 255, 255}, {255, 0, 255});
-	spawnManager.Render(ren,map, {255, 255, 0});
-	player.Render(ren, map, {255, 0, 255});
+	map.Render(ren, {0, 0, 255}, {255, 255, 0});
+	spawnManager.Render(ren,map, {255, 0, 0});
+	player.Render(ren, map, {255, 255, 0});
+}
+
+template <class obj, typename Func>
+void GameScene::HandleCollisions(std::vector<obj>& enemies, u32 score, Func& behaviour){
+	for(auto& enemy : enemies){
+		if(!enemy.IsActive())
+			continue;
+
+		if(enemy.IsColliding(player)){
+			enemy.Deactivate();
+			player.Hit();
+			spawnManager.Clear();
+		}
+
+		for(auto& bullet : player.GetBullets()){
+			if(!bullet.IsActive())
+				continue;
+
+			if(bullet.IsColliding(enemy)){
+				bullet.Deactivate();
+				enemy.Hit();
+				behaviour(enemy);
+			}
+		}
+	}
 }

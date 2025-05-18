@@ -25,6 +25,14 @@ public:
     void ProcessEvent(const SDL_Event& event);
     void Update(f64 delta);
     inline u8 GetCurrentLevelNum(){ return currentFigure; };
-};
 
+    template<class obj>
+    inline void HandleCollisions(std::vector<obj>& enemies, u32 score){
+        auto f = [](obj& enemy) { (void)enemy; };
+        HandleCollisions(enemies, score, f);
+    }
+    
+    template<class obj, typename Func>
+    void HandleCollisions(std::vector<obj>& enemies, u32 score, Func& behaviour);
+};
 #endif
