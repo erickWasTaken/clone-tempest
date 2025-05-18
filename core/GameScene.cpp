@@ -82,6 +82,8 @@ void GameScene::HandleCollisions(std::vector<obj>& enemies, u32 score, Func& beh
 			if(bullet.IsColliding(enemy)){
 				bullet.Deactivate();
 				enemy.Hit();
+				player.AddScore(score);
+				std::cout << player.GetScore() << std::endl;
 				behaviour(enemy);
 			}
 		}
