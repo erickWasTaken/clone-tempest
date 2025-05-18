@@ -12,10 +12,23 @@ void Blaster::Update(f64 delta, const Map& map){
 	if(!active)
 		return;
 
+	bullets.Update(delta, map);
+
+	if(isShooting){
+		elapsedTime += delta;
+		if(elapsedTime >= shotInterval){
+			bullets.Create(map.GetSelectedLaneNum(), 0, .5, .001, 0, BACKWARD);
+			elapsedTime -= shotInterval;
+		}
+	}
+
 	Move(delta, map);
 }
 
 void Blaster::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color)const{
+
+	bullets.Render(ren, map, {255, 255, 0});
+	
 	const Lane& lane = map.GetLane(laneNum);
 	auto exterior = lane.GetExterior();
 

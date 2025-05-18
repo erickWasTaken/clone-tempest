@@ -16,7 +16,6 @@ private:
 
     Blaster player;
     SpawnManager spawnManager;
-    Bullet bullet;
 
 public:
     GameScene(u8 level);
