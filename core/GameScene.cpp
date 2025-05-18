@@ -16,6 +16,7 @@ GameScene::GameScene(u8 level) :
 
 void GameScene::Update(f64 delta){
 	player.Update(delta, map);
+	bullet.Update(delta, map);
 	spawnManager.Update(delta, map, GetCurrentLevelNum());
 	map.Select(player.getLaneNum());
 }
@@ -33,6 +34,7 @@ void GameScene::ProcessEvent(const SDL_Event& event){
 					break;
 
 				case SDLK_SPACE:
+					bullet.Activate(map.GetSelectedLaneNum(), 0, .5, .001, 0, BACKWARD);
 					break;
 			}
 			break;
@@ -57,4 +59,5 @@ void GameScene::Render(SDL_Renderer* ren){
 	map.Render(ren, {0, 255, 255}, {255, 0, 255});
 	spawnManager.Render(ren,map, {255, 255, 0});
 	player.Render(ren, map, {255, 0, 255});
+	bullet.Render(ren, map, {255, 255, 0});
 }

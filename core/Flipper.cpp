@@ -46,6 +46,14 @@ void Flipper::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8,
 	);
 
 	SDL_RenderDrawLineF(
+		ren, 
+		topLeft.getX(),
+		topLeft.getY(),
+		midLeft.getX(),
+		midLeft.getY()
+	);
+
+	SDL_RenderDrawLineF(
 		ren,
 		bottomRight.getX(),
 		bottomRight.getY(),
@@ -57,6 +65,14 @@ void Flipper::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8,
 		ren,
 		bottomRight.getX(),
 		bottomRight.getY(),
+		midRight.getX(),
+		midRight.getY()
+	);
+
+	SDL_RenderDrawLineF(
+		ren,
+		topRight.getX(),
+		topRight.getY(),
 		midRight.getX(),
 		midRight.getY()
 	);

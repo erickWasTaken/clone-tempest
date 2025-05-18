@@ -6,6 +6,7 @@
 #include "../core/Map.hpp"
 #include "../core/Blaster.hpp"
 #include "../core/SpawnManager.hpp"
+#include "../core/Bullet.hpp"
 
 class GameScene{
 private:
@@ -15,6 +16,7 @@ private:
 
     Blaster player;
     SpawnManager spawnManager;
+    Bullet bullet;
 
 public:
     GameScene(u8 level);
