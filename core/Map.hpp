@@ -7,6 +7,7 @@
 #include <vector>
 #include "Lane.hpp"
 #include <cassert>
+#include <iostream>
 
 class Map{
 private:
@@ -40,13 +41,14 @@ public:
     }
 
     inline const Lane& GetLane(u8 laneNum)const{
-        assert(laneNum < lanes.size());
+        // assert(laneNum < lanes.size());
         return lanes[laneNum];
     }
     inline f32 GetAvgLaneWidth() const{ return avgLaneWidth; };
 
     inline const Vector2& GetOrigin()const{ return origin; };
     inline f32 GetFocal()const { return focal; };
+    inline u8 Size()const{ return lanes.size(); };
 };
 
 #endif

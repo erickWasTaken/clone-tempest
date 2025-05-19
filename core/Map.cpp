@@ -44,7 +44,6 @@ void Map::Render(SDL_Renderer* renderer_, const std::tuple<u8, u8, u8>& color_, 
 }
 
 u8 Map::GetLeftLaneNum(u8 laneNum_) const{
-	assert(laneNum_ < lanes.size());
 	i32 leftLaneNum = laneNum_ -1;
 	if(isContinuous)
 		leftLaneNum %= lanes.size();
@@ -54,11 +53,10 @@ u8 Map::GetLeftLaneNum(u8 laneNum_) const{
 }
 
 u8 Map::GetRightLaneNum(u8 laneNum_) const{
-	assert(laneNum_ < lanes.size());
 	i32 rightLaneNum = laneNum_ + 1;
 	if(isContinuous)
 		rightLaneNum %= lanes.size();
 	else
-		rightLaneNum = std::min(rightLaneNum, static_cast<int>(lanes.size() -1));
+		rightLaneNum = std::min(rightLaneNum, static_cast<i32>(lanes.size() -1));
 	return rightLaneNum;
 }

@@ -1,5 +1,7 @@
 #include "../core/SpawnManager.hpp"
 #include "../utils/types.hpp"
+#include <iostream>
+#include <sstream>
 
 SpawnManager::SpawnManager(u8 maxLaneNum, u8 level) :
 	laneNumber{ 0, static_cast<u8>(maxLaneNum - 1) }{
@@ -30,6 +32,7 @@ void SpawnManager::Spawn(f64 delta, u8 level){
 	u8 lane_ = laneNumber(rng);
 	u8 enemy_ = enemyType(rng);
 
+	std::cout << std::to_string(lane_) << std::endl;
 	SpawnFlipper(lane_, 1, level);
 }
 

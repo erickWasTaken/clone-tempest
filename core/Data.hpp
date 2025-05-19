@@ -7,17 +7,17 @@
 
 class Data{
 private:
-    inline static const std::string DATA_PATH = "/home/waffoe/Drive/lost+found/.occult/projects/clone-tempest/data/test_level_data.txt";
+    inline static const std::string DATA_PATH = "data/level_data.txt";
     std::vector<std::vector<Vector2>> exterior;
     std::vector<Vector2> origin;
     std::vector<f32> focal;
     std::vector<bool> isContinuous;
 
 public:
-    inline static const u8 N_FIGURES = 1;
+    inline static const u8 N_FIGURES = 16;
     inline static const u8 N_BANDS_PER_FIGURE = 16;
-    inline static const u8 N_CYCLES = 1;
-    inline static const u8 N_LEVELS = 1;
+    inline static const u8 N_CYCLES = 5;
+    inline static const u8 N_LEVELS = 80;
 
     Data();
     Data(const Data& data) = default;

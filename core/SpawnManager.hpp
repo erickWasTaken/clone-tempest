@@ -17,7 +17,7 @@ class SpawnManager{
     std::default_random_engine rng{ rd() };
 
     std::uniform_int_distribution<u8> enemyType{ 0, 1 };
-    std::uniform_int_distribution<u8> laneNumber{ 0, 0 };
+    std::uniform_int_distribution<u8> laneNumber{ 0, 14 };
     
     Pool<Flipper> flippers{ maxFlippers };
 

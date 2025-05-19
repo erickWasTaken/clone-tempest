@@ -11,7 +11,7 @@ GameScene::GameScene(u8 level) :
 		levelData.getFocal()[level],
 		levelData.getOrigin()[level]
 	}{
-	std::cout << level % Data::N_FIGURES << std::endl;
+
 }
 
 void GameScene::Update(f64 delta){
@@ -20,6 +20,27 @@ void GameScene::Update(f64 delta){
 	map.Select(player.getLaneNum());
 
 	HandleCollisions(spawnManager.GetFlippers(), 200);
+
+	if(player.GetScore() > GetCurrentLevelScoreCap()){
+		LoadNextLevel();
+	} 
+}
+
+void GameScene::LoadNextLevel(){
+	currentFigure = (currentFigure + 1) % Data::N_FIGURES;
+
+	if(currentFigure == 0)
+		currentCycle ++;
+
+	map.Load(
+		levelData.getExterior()[currentFigure],
+		levelData.getIsContinuous()[currentFigure],
+		levelData.getFocal()[currentFigure],
+		levelData.getOrigin()[currentFigure]
+	);
+
+	spawnManager.Load(map.Size(), GetCurrentLevelNum());
+	player.Clear();
 }
 
 void GameScene::ProcessEvent(const SDL_Event& event){
