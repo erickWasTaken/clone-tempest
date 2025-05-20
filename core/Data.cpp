@@ -24,22 +24,22 @@ Data::Data() : exterior(N_FIGURES, std::vector<Vector2>(N_BANDS_PER_FIGURE)), or
 
 	for(u8 i = 0; i < N_FIGURES; i++){
 		file >> buf;
-		origin[i].setX(buf);
+		origin[i].setX(buf * (1 - .25) + 188);
 	}for(u8 i = 0; i < N_FIGURES; i++){
 		file >> buf;
-		origin[i].setY(buf);
+		origin[i].setY(buf * (1 - .25) - 86);
 		// std::cout << buf << std::endl;
 	}
 
 	for(u8 i = 0; i < N_FIGURES; i++){
 		for(u8 j = 0; j < N_BANDS_PER_FIGURE; j++){
 			file >> buf;
-			exterior[i][j].setX(buf);
+			exterior[i][j].setX(buf * (1 - .25) + 188);
 		}
 	}for(u8 i = 0; i < N_FIGURES; i++){
 		for(u8 j = 0; j < N_BANDS_PER_FIGURE; j++){
 			file >> buf;
-			exterior[i][j].setY(buf);
+			exterior[i][j].setY(buf * (1 - .25) - 86);
 		}
 	}
 

@@ -87,8 +87,8 @@ void CreateWindow(){
 	SDL_Init(SDL_INIT_EVERYTHING);
 	win = SDL_CreateWindow(
 		static_cast<const std::string&>("ARASHI - Tempest clone").c_str(),
-		480,
-		270,
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
 		wWidth,
 		wHeight,
 		0
