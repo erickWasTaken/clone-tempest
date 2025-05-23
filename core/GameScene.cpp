@@ -1,5 +1,6 @@
 #include "../core/GameScene.hpp"
 #include "../utils/types.hpp"
+#include "../ui/Pen.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -82,6 +83,14 @@ void GameScene::Render(SDL_Renderer* ren){
 	map.Render(ren, {0, 0, 255}, {255, 255, 0});
 	spawnManager.Render(ren,map, {255, 0, 0});
 	player.Render(ren, map, {255, 255, 0});
+
+	Pen::DrawString(
+		ren,
+		20,
+		46,
+		std::to_string(player.GetScore()),
+		{255, 255, 255}
+	);
 }
 
 template <class obj, typename Func>
