@@ -1,2 +1,2 @@
 # Tempest Clone
-![screenshots/Level_5.png]
+![Level 5](screenshots/Level_5.png)
