@@ -1,2 +1,0 @@
--I/home/blkcat/.local/share/vcpkg/installed/x64-linux/include
--std=c++20
