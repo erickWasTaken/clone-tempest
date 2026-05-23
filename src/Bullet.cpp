@@ -1,4 +1,4 @@
-#include "../core/Bullet.hpp"
+#include "Bullet.hpp"
 
 void Bullet::Update(f64 delta, const Map& map){
 	if(!active)

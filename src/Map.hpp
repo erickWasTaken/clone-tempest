@@ -2,12 +2,12 @@
 #define MAP_HPP
 
 #include <SDL2/SDL.h>
-#include "../utils/Vector2.hpp"
-#include "../utils/types.hpp"
 #include <vector>
-#include "Lane.hpp"
 #include <cassert>
 #include <iostream>
+#include "Lane.hpp"
+#include "../utils/Vector2.hpp"
+#include "../utils/types.hpp"
 
 class Map{
 private:

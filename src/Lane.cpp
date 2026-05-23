@@ -1,6 +1,6 @@
-#include "Lane.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "Lane.hpp"
 
 Lane::Lane(Vector2 extA_, Vector2 extB_, Vector2 origin_, f32 focal_) :
 	extA{ extA_ },

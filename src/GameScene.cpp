@@ -1,8 +1,8 @@
-#include "../core/GameScene.hpp"
-#include "../utils/types.hpp"
-#include "../ui/Pen.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "GameScene.hpp"
+#include "../utils/types.hpp"
+#include "../ui/Pen.hpp"
 
 GameScene::GameScene(u8 level) :
 	currentFigure{ static_cast<u8>(level % Data::N_FIGURES) },

@@ -1,7 +1,7 @@
-#include "../core/SpawnManager.hpp"
-#include "../utils/types.hpp"
 #include <iostream>
 #include <sstream>
+#include "SpawnManager.hpp"
+#include "../utils/types.hpp"
 
 SpawnManager::SpawnManager(u8 maxLaneNum, u8 level) :
 	laneNumber{ 0, static_cast<u8>(maxLaneNum - 1) }{

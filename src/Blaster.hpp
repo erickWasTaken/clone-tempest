@@ -1,9 +1,9 @@
 #ifndef BLASTER_HPP
 #define BLASTER_HPP
 
-#include "../core/GameObject.hpp"
-#include "../core/Bullet.hpp"
-#include "../core/Pool.hpp"
+#include "GameObject.hpp"
+#include "Bullet.hpp"
+#include "Pool.hpp"
 
 class Blaster : public GameObject{
 private:

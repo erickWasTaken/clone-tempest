@@ -1,5 +1,5 @@
-#include "../core/Blaster.hpp"
 #include "../utils/Vector2.hpp"
+#include "Blaster.hpp"
 
 void Blaster::Clear(){
 	laneNum = 0;

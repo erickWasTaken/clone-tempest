@@ -1,10 +1,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "./utils/types.hpp"
-#include "./core/Map.hpp"
-#include "./core/Data.hpp"
-#include "./core/GameScene.hpp"
-#include "./utils/Timer.hpp"
+#include "Map.hpp"
+#include "Data.hpp"
+#include "GameScene.hpp"
+#include "../utils/types.hpp"
+#include "../utils/Timer.hpp"
 
 bool isShooting = false;
 

@@ -1,9 +1,9 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
-#include "../utils/Vector2.hpp"
 #include <string>
 #include <vector>
+#include "../utils/Vector2.hpp"
 
 class Data{
 private:

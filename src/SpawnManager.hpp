@@ -1,11 +1,11 @@
 #ifndef SPAWN_MNG_HPP
 #define SPAWN_MNG_HPP
 
-#include "../utils/types.hpp"
 #include <random>
-#include "../core/Pool.hpp"
-#include "../core/Flipper.hpp"
-#include "../core/GameObject.hpp"
+#include "Pool.hpp"
+#include "Flipper.hpp"
+#include "GameObject.hpp"
+#include "../utils/types.hpp"
 
 class SpawnManager{
     static const u8 maxFlippers = 15;

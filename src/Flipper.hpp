@@ -1,8 +1,8 @@
 #ifndef FLIPPER_HPP
 #define FLIPPER_HPP
 
-#include "../core/GameObject.hpp"
-#include "../core/Map.hpp"
+#include "GameObject.hpp"
+#include "Map.hpp"
 
 class Flipper : public GameObject{
 private:

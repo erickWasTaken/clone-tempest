@@ -1,9 +1,9 @@
 #ifndef GO_HPP
 #define GO_HPP
 
-#include "../utils/types.hpp"
-#include "../core/Map.hpp"
 #include <SDL2/SDL.h>
+#include "Map.hpp"
+#include "../utils/types.hpp"
 
 enum eDirection{
     NONE,

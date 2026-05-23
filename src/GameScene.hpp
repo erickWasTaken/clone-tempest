@@ -1,12 +1,12 @@
 #ifndef GAME_SCENE_HPP
 #define GAME_SCENE_HPP
 
-#include "../core/Data.hpp"
+#include "Data.hpp"
+#include "Map.hpp"
+#include "Blaster.hpp"
+#include "SpawnManager.hpp"
+#include "Bullet.hpp"
 #include "../utils/types.hpp"
-#include "../core/Map.hpp"
-#include "../core/Blaster.hpp"
-#include "../core/SpawnManager.hpp"
-#include "../core/Bullet.hpp"
 
 class GameScene{
 private:

@@ -1,4 +1,4 @@
-#include "../core/GameObject.hpp"
+#include "GameObject.hpp"
 
 void GameObject::Move(f64 delta, const Map& map){
 	switch(movementDirection){

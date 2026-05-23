@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <algorithm>
+#include "Map.hpp"
+#include "GameObject.hpp"
 #include "../utils/types.hpp"
-#include "../core/Map.hpp"
-#include "../core/GameObject.hpp"
 
 template<typename obj>
 class Pool{

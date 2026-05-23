@@ -1,7 +1,7 @@
 #ifndef BULLET_HPP
 #define BULLET_HPP
 
-#include "../core/GameObject.hpp"
+#include "GameObject.hpp"
 
 class Bullet : public GameObject{
 public:

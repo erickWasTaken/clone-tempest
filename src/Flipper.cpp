@@ -1,6 +1,6 @@
-#include "../core/Flipper.hpp"
-#include "../core/Map.hpp"
 #include <SDL2/SDL.h>
+#include "Flipper.hpp"
+#include "Map.hpp"
 
 void Flipper::Render(SDL_Renderer* ren, const Map& map, const std::tuple<u8, u8, u8>& color) const{
 	if(!active)
