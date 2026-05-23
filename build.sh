@@ -2,6 +2,7 @@
 
 CC="gcc"
 SRCS="./src/*.c"
+DIR="./builds"
 
 declare -A argmap=(
     ["--name"]="NAME"
@@ -37,3 +38,5 @@ else
 fi
 
 $CC $includes -g $SRCS -o$NAME $libs $warnings $CFLAGS
+mkdir -p $DIR
+mv $NAME $DIR
