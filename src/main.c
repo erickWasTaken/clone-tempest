@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
+#include <stdint.h>
 
 #include <SDL2/SDL.h>
+
+bool running = false;
+#define FPS  (60)
+#define TICK (1000 / FPS)
 
 SDL_Window*   win = NULL;
 SDL_Renderer* ren = NULL;
@@ -13,6 +18,19 @@ int D_HEIGHT = 0;
 
 #define R_WIDTH  (1280)
 #define R_HEIGHT (720)
+
+typedef struct{
+    int width;
+    int height;
+    uint32_t* buffer;
+}colorbuffer;
+
+colorbuffer* cbuffer = NULL;
+
+#define BG  (0xffffffff)
+
+unsigned deltatime = 0;
+unsigned lastframe = 0;
 
 bool init(){
     bool success = !SDL_Init(SDL_INIT_EVERYTHING);  
@@ -50,8 +68,15 @@ bool init(){
 
     if(!tex) goto abort;
 
-    srand(time(NULL));
+    cbuffer = (colorbuffer*)malloc(sizeof(colorbuffer));
+    cbuffer->buffer = (uint32_t*)malloc(sizeof(uint32_t) * R_WIDTH * R_HEIGHT);
+    cbuffer->width  = R_WIDTH;
+    cbuffer->height = R_HEIGHT;
 
+    if(!cbuffer) goto abort;
+
+    srand(time(NULL));
+    running = true;
 abort:
     const char* err;
     err = SDL_GetError();
@@ -59,8 +84,94 @@ abort:
     return false;
 }
 
+void update(void){
+    int now = SDL_GetTicks();      
+    int sleeptime = now - lastframe;
+
+    if (sleeptime > 0 && sleeptime < TICK){
+       SDL_Delay(sleeptime);
+    }
+
+    deltatime = now - lastframe;
+    lastframe = now;
+}
+
+void input(void){
+    SDL_Event evt;
+    while(SDL_PollEvent(&evt)){
+        if(evt.type == SDL_QUIT || (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE)){
+            running = false;
+        }
+
+        if(evt.type == SDL_KEYDOWN){
+            SDL_Keysym key = evt.key.keysym;
+
+            switch(key.sym){}
+        }
+    }
+}
+
+void clear_color(colorbuffer* cbuffer, uint32_t color){
+    int width  = cbuffer->width;
+    int height = cbuffer->height;
+
+    for(int i = width * height; i--; )
+        cbuffer->buffer[i] = color;
+}
+
+void blit(){
+    SDL_UpdateTexture(
+        tex,
+        NULL,
+        cbuffer->buffer,
+        (int)(sizeof(uint32_t) * cbuffer->width)
+    );
+
+    SDL_Rect src_rect = {
+        0, 0, R_WIDTH, R_HEIGHT
+    };
+
+    float scale_x = D_WIDTH  / (float)R_WIDTH;
+    float scale_y = D_HEIGHT / (float)R_HEIGHT;
+
+    float scale = scale_y < scale_x ? scale_x : scale_y;
+
+    int xsize = (int)(R_WIDTH  * scale);
+    int ysize = (int)(R_HEIGHT * scale);
+
+    SDL_Rect dst_rect = {
+        D_WIDTH  / 2 - (xsize / 2),
+        D_HEIGHT / 2 - (ysize / 2),
+        xsize,
+        ysize
+    };
+
+    SDL_RenderCopy(
+        ren,
+        tex,
+        &src_rect,
+        &dst_rect
+    );
+
+    SDL_RenderPresent(
+        ren
+    );
+}
+
+void render(void){
+    clear_color(cbuffer, BG);
+
+    blit();
+}
+
 int main(){
     init();
-    printf("SUCCESSFULLY INITIALIZED!\n");
+
+    while(running){
+        input();
+        update();
+        render();
+    }
+
     return 0;
 }
