@@ -5,15 +5,9 @@
 
 #include "texture.h"
 #include "renderer.h"
+#include "util.h"
 
-#define SWAP(a, b)                  \
-    do{                             \
-        int type = sizeof((*(a)));  \
-        char temp[sizeof(type)];    \
-        memcpy(temp, (a), type);    \
-        (*(a)) = (*(b));            \
-        memcpy((b), temp, type);    \
-    }while(0);
+#define THICKNESS (4)
 
 void draw_pixel(colorbuffer* cbuffer, int x, int y, uint32_t color){
     int width = cbuffer->width;
@@ -21,6 +15,12 @@ void draw_pixel(colorbuffer* cbuffer, int x, int y, uint32_t color){
 
     if(x < 0 || x >= width || y < 0 || y >= height) return;
     cbuffer->buffer[y * width + x] = color;
+}
+
+void draw_rect(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
+    for(int i = size; i--; )
+        for(int j = size; j--; )
+            draw_pixel(cbuffer, x + i, y + j, color);
 }
 
 void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, uint32_t color){
@@ -39,8 +39,11 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, uint32_t co
     int y = ay;
     int error = 0;
     for(int x = ax; x <= bx; x++){
-        if(steep) draw_pixel(cbuffer, y, x, color);
-        else draw_pixel(cbuffer, x, y, color);
+        // if(steep) draw_pixel(cbuffer, y, x, color);
+        // else draw_pixel(cbuffer, x, y, color);
+        
+        if(steep) draw_rect(cbuffer, y, x, THICKNESS, color);
+        else draw_rect(cbuffer, x, y, THICKNESS, color);
 
         error += 2 * abs(by - ay);
         if(error){
@@ -48,4 +51,5 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, uint32_t co
             error -= 2 * (bx - ax);
         }
     }
-}
+}   
+
