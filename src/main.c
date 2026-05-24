@@ -5,6 +5,9 @@
 
 #include <SDL2/SDL.h>
 
+#include "./renderer.h"
+#include "./texture.h"
+
 bool running = false;
 #define FPS  (60)
 #define TICK (1000 / FPS)
@@ -19,15 +22,7 @@ int D_HEIGHT = 0;
 #define R_WIDTH  (1280)
 #define R_HEIGHT (720)
 
-typedef struct{
-    int width;
-    int height;
-    uint32_t* buffer;
-}colorbuffer;
-
 colorbuffer* cbuffer = NULL;
-
-#define BG  (0xffffffff)
 
 unsigned deltatime = 0;
 unsigned lastframe = 0;
@@ -68,10 +63,7 @@ bool init(){
 
     if(!tex) goto abort;
 
-    cbuffer = (colorbuffer*)malloc(sizeof(colorbuffer));
-    cbuffer->buffer = (uint32_t*)malloc(sizeof(uint32_t) * R_WIDTH * R_HEIGHT);
-    cbuffer->width  = R_WIDTH;
-    cbuffer->height = R_HEIGHT;
+    cbuffer = create_colorbuffer(R_WIDTH, R_HEIGHT); 
 
     if(!cbuffer) goto abort;
 
@@ -109,14 +101,6 @@ void input(void){
             switch(key.sym){}
         }
     }
-}
-
-void clear_color(colorbuffer* cbuffer, uint32_t color){
-    int width  = cbuffer->width;
-    int height = cbuffer->height;
-
-    for(int i = width * height; i--; )
-        cbuffer->buffer[i] = color;
 }
 
 void blit(){
@@ -161,6 +145,19 @@ void blit(){
 void render(void){
     clear_color(cbuffer, BG);
 
+    int width  = cbuffer->width;
+    int height = cbuffer->height;
+
+    float a = ((M_PI * 2) / 10.0f) * (lastframe / (float)1000);
+    uint32_t color = 
+        (uint8_t)((sin(a + (((M_PI * 2) / 3) * 0)) * 0.5f + 0.5f) * 255) % 255 << (8 * 2) | 
+        (uint8_t)((sin(a + (((M_PI * 2) / 3) * 1)) * 0.5f + 0.5f) * 255) % 255 << (8 * 1) | 
+        (uint8_t)((sin(a + (((M_PI * 2) / 3) * 2)) * 0.5f + 0.5f) * 255) % 255 << (8 * 0) ;
+
+    for(int j = height; j--; )
+        for(int i = width; i--; )
+            draw_pixel(cbuffer, i, j, color);
+    
     blit();
 }
 

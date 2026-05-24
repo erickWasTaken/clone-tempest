@@ -40,3 +40,5 @@ fi
 $CC $includes -g $SRCS -o$NAME $libs $warnings $CFLAGS
 mkdir -p $DIR
 mv $NAME $DIR
+
+echo "Succesfully built $DIR/$NAME"
