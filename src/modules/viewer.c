@@ -4,30 +4,41 @@
 #include "../renderer.h"
 #include "../texture.h"
 
-#define S_WIDTH  (1280)
-#define S_HEIGHT (720)
+#define COLOR (0xffffff88)
+
+lineshader shader = dashed_line;
+
+uint32_t dashed_line(float t){
+    int segs = 10;
+    
+    uint32_t res = ((int)(t * segs) % 2) ? COLOR : 0xffffffff;
+    return res;
+}
 
 void module_render(colorbuffer* cbuffer){
-    int ax = S_WIDTH / 2;
-    int ay = (S_HEIGHT / 4) * 1;
+    int width  = cbuffer->width;
+    int height = cbuffer->height;
 
-    int bx = (S_WIDTH / 4) * 3;
-    int by = (S_HEIGHT / 4) * 3;
+    int ax = width / 2;
+    int ay = (height / 4) * 1;
 
-    draw_line(cbuffer, ax, ay, bx, by, 0xff0000ff);
+    int bx = (width / 4) * 3;
+    int by = (height / 4) * 3;
 
-    ax = bx;
-    ay = by;
-
-    bx = (S_WIDTH / 4) * 1;
-
-    draw_line(cbuffer, ax, ay, bx, by, 0xff0000ff);
+    draw_line(cbuffer, ax, ay, bx, by, shader);
 
     ax = bx;
     ay = by;
 
-    bx = S_WIDTH / 2;
-    by = (S_HEIGHT / 4) * 1;
+    bx = (width / 4) * 1;
 
-    draw_line(cbuffer, ax, ay, bx, by, 0xff0000ff);
+    draw_line(cbuffer, ax, ay, bx, by, shader);
+
+    ax = bx;
+    ay = by;
+
+    bx = width / 2;
+    by = (height / 4) * 1;
+
+    draw_line(cbuffer, ax, ay, bx, by, shader);
 }

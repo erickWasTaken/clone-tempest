@@ -23,7 +23,7 @@ void draw_rect(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
             draw_pixel(cbuffer, x + i, y + j, color);
 }
 
-void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, uint32_t color){
+void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader shader){
     int steep = abs(by - ay) > abs(bx - ax);
 
     if(steep){
@@ -38,10 +38,11 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, uint32_t co
 
     int y = ay;
     int error = 0;
+
     for(int x = ax; x <= bx; x++){
-        // if(steep) draw_pixel(cbuffer, y, x, color);
-        // else draw_pixel(cbuffer, x, y, color);
-        
+        float t = x / (float)(bx - ax);
+        uint32_t color = shader(t);
+
         if(steep) draw_rect(cbuffer, y, x, THICKNESS, color);
         else draw_rect(cbuffer, x, y, THICKNESS, color);
 
