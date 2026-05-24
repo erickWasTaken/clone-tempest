@@ -6,7 +6,7 @@ DIR="./builds"
 
 declare -A argmap=(
     ["--name"]="NAME"
-    ["--flags"]="CFLAGS"
+    ["--flags"]="DFLAGS"
     ["--recipe"]="RECIPE"
 )
 
@@ -37,7 +37,11 @@ else
     exit 1
 fi
 
-$CC $includes -g $SRCS -o$NAME $libs $warnings $CFLAGS
+rm -f module_*
+$CC -g $SRCS "./src/modules/viewer.c" -shared -fPIC -o module_$timestamp.so $warnings -D$DFLAGS
+mv module_$timestamp.so module.so
+
+$CC $includes -g $SRCS -o$NAME $libs $warnings -D$DFLAGS
 mkdir -p $DIR
 mv $NAME $DIR
 

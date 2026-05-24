@@ -3,6 +3,11 @@
 #include <time.h>
 #include <stdint.h>
 
+// IO
+#include <sys/stat.h>
+#include <dlfcn.h>
+#include <unistd.h>
+
 #include <SDL2/SDL.h>
 
 #include "./renderer.h"
@@ -26,6 +31,16 @@ colorbuffer* cbuffer = NULL;
 
 unsigned deltatime = 0;
 unsigned lastframe = 0;
+
+const char* dll_path = "module.so";
+const char* dll_load_path = "module_load.so";
+
+typedef void (*render_func)(colorbuffer* cbuffer);
+render_func render_module;
+
+#ifdef VIEWER
+#include "./modules/viewer.h"
+#endif
 
 bool init(){
     bool success = !SDL_Init(SDL_INIT_EVERYTHING);  
@@ -76,7 +91,121 @@ abort:
     return false;
 }
 
+long long get_file_timestamp(const char* filepath){
+    struct stat filestat = {};
+    stat(filepath, &filestat);
+    return filestat.st_mtime;
+}
+
+size_t get_filesize(FILE* file){
+    if(!file){
+        printf("Could not assert file size\nNull pointer\n");
+        return 0;
+    }
+
+    size_t res;
+    fseek(file, 0, SEEK_END);
+    res = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    return res;
+}
+
+void read_file(FILE* file, size_t fsize, char* buffer){
+    fread(buffer, sizeof(char), fsize, file);
+    buffer[fsize] = '/0';
+}
+
+bool copy_file(const char* src_path, const char* dst_path){
+    char errormsg[256];
+    FILE* src = fopen(src_path, "r");
+
+    if(!src){
+        sprintf(errormsg, "Could not open file: %s", src_path);
+        printf("%s\n", errormsg);
+        // goto abort;
+        return false;
+    }
+
+    size_t fsize = get_filesize(src);
+    char buffer[fsize + 1];
+    read_file(src, fsize, buffer);
+
+    fclose(src);
+
+    FILE* dst = fopen(dst_path, "w");
+    if(!dst){
+        sprintf(errormsg, "Could not open file: %s", dst_path);
+        printf("%s\n", errormsg);
+        // goto abort;
+        return false;
+    }
+
+    bool success = (bool)fwrite(buffer, sizeof(char), fsize, dst);
+    fclose(dst);
+    if(!success){
+        sprintf(errormsg, "Could not write to file: %s", dst_path);
+        printf("%s\n", errormsg);
+        // goto abort;
+        return false;
+    }
+
+    return success; 
+
+abort:
+    printf("%s", errormsg);
+    return false;
+}
+
+void* load_dynamic_function(void* dll, const char* funcname){
+    void* proc = dlsym(dll, funcname);
+    if(!proc){
+        printf("%s\n", dlerror());
+        return NULL;
+    }
+
+    return proc;
+}
+
+void update_dll(){
+    static void* dll;
+    static long long dlltimestamp;
+    
+    long long curr = get_file_timestamp(dll_path);
+
+    if(curr > dlltimestamp){
+        if(dll){
+            bool closed = (bool)dlclose(dll); 
+            dll = NULL;
+        }
+
+        while(!copy_file(dll_path, dll_load_path)){
+            sleep(10);
+        }
+
+        char path[256];
+        sprintf(path, "./%s", dll_load_path);
+        dll = dlopen(path, RTLD_NOW); 
+
+        if(!dll){
+            printf("%s\n", dlerror());
+            return;
+        } 
+
+        render_module = (render_func)load_dynamic_function(dll, "module_render");
+        if(!render_module){
+            printf("%s\n", dlerror());
+            return;
+        }
+
+        dlltimestamp = curr;
+    }
+}
+
 void update(void){
+    // update dll here
+    update_dll();
+
     int now = SDL_GetTicks();      
     int sleeptime = now - lastframe;
 
@@ -144,30 +273,7 @@ void blit(){
 
 void render(void){
     clear_color(cbuffer, BG);
-
-    int ax = R_WIDTH / 2;
-    int ay = (R_HEIGHT / 4) * 1;
-
-    int bx = (R_WIDTH / 4) * 3;
-    int by = (R_HEIGHT / 4) * 3;
-
-    draw_line(cbuffer, ax, ay, bx, by, 0xff000000);
-
-    ax = bx;
-    ay = by;
-
-    bx = (R_WIDTH / 4) * 1;
-
-    draw_line(cbuffer, ax, ay, bx, by, 0xff000000);
-
-    ax = bx;
-    ay = by;
-
-    bx = R_WIDTH / 2;
-    by = (R_HEIGHT / 4) * 1;
-
-    draw_line(cbuffer, ax, ay, bx, by, 0xff000000);
-    
+    render_module(cbuffer);
     blit();
 }
 
