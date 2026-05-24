@@ -145,18 +145,28 @@ void blit(){
 void render(void){
     clear_color(cbuffer, BG);
 
-    int width  = cbuffer->width;
-    int height = cbuffer->height;
+    int ax = R_WIDTH / 2;
+    int ay = (R_HEIGHT / 4) * 1;
 
-    float a = ((M_PI * 2) / 10.0f) * (lastframe / (float)1000);
-    uint32_t color = 
-        (uint8_t)((sin(a + (((M_PI * 2) / 3) * 0)) * 0.5f + 0.5f) * 255) % 255 << (8 * 2) | 
-        (uint8_t)((sin(a + (((M_PI * 2) / 3) * 1)) * 0.5f + 0.5f) * 255) % 255 << (8 * 1) | 
-        (uint8_t)((sin(a + (((M_PI * 2) / 3) * 2)) * 0.5f + 0.5f) * 255) % 255 << (8 * 0) ;
+    int bx = (R_WIDTH / 4) * 3;
+    int by = (R_HEIGHT / 4) * 3;
 
-    for(int j = height; j--; )
-        for(int i = width; i--; )
-            draw_pixel(cbuffer, i, j, color);
+    draw_line(cbuffer, ax, ay, bx, by, 0xff000000);
+
+    ax = bx;
+    ay = by;
+
+    bx = (R_WIDTH / 4) * 1;
+
+    draw_line(cbuffer, ax, ay, bx, by, 0xff000000);
+
+    ax = bx;
+    ay = by;
+
+    bx = R_WIDTH / 2;
+    by = (R_HEIGHT / 4) * 1;
+
+    draw_line(cbuffer, ax, ay, bx, by, 0xff000000);
     
     blit();
 }
