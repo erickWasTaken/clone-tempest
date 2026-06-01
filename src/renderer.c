@@ -7,7 +7,7 @@
 #include "renderer.h"
 #include "util.h"
 
-#define THICKNESS (4)
+#define THICKNESS (8)
 
 void draw_pixel(colorbuffer* cbuffer, int x, int y, uint32_t color){
     int width = cbuffer->width;
@@ -17,10 +17,14 @@ void draw_pixel(colorbuffer* cbuffer, int x, int y, uint32_t color){
     cbuffer->buffer[y * width + x] = color;
 }
 
-void draw_rect(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
-    for(int i = size; i--; )
+void draw_horizontalstripe(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
+        for(int i = size; i--; )
+            draw_pixel(cbuffer, x + i, y, color);
+}
+
+void draw_verticalstripe(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
         for(int j = size; j--; )
-            draw_pixel(cbuffer, x + i, y + j, color);
+            draw_pixel(cbuffer, x, y + j, color);
 }
 
 void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader shader){
@@ -39,12 +43,14 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader 
     int y = ay;
     int error = 0;
 
+    float c = 1 / (float)(bx-ax);
+    float t = 0;
     for(int x = ax; x <= bx; x++){
-        float t = x / (float)(bx - ax);
         uint32_t color = shader(t);
+        t += c;
 
-        if(steep) draw_rect(cbuffer, y, x, THICKNESS, color);
-        else draw_rect(cbuffer, x, y, THICKNESS, color);
+        if(steep) draw_horizontalstripe(cbuffer, y, x, THICKNESS, color);
+        else draw_verticalstripe(cbuffer, x, y, THICKNESS, color);
 
         error += 2 * abs(by - ay);
         if(error){

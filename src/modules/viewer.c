@@ -11,7 +11,8 @@ lineshader shader = dashed_line;
 uint32_t dashed_line(float t){
     int segs = 10;
     
-    uint32_t res = ((int)(t * segs) % 2) ? COLOR : 0xffffffff;
+    uint32_t res = ((int)(t * segs) % 2) ? COLOR : BG;
+
     return res;
 }
 

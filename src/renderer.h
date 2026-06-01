@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "./texture.h"
 
-#define BG  (0xffffffff)
+#define BG  (0xff000000)
 
 typedef uint32_t (*lineshader)(float t);
 
