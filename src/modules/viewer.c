@@ -3,6 +3,7 @@
 #include "./viewer.h"
 #include "../renderer.h"
 #include "../texture.h"
+#include "../meth.h"
 
 #define COLOR (0xffffff88)
 
@@ -20,26 +21,23 @@ void module_render(colorbuffer* cbuffer){
     int width  = cbuffer->width;
     int height = cbuffer->height;
 
-    int ax = width / 2;
-    int ay = (height / 4) * 1;
+    vec2 a = {
+        width / 2,
+        (height / 4) * 1
+    };
 
-    int bx = (width / 4) * 3;
-    int by = (height / 4) * 3;
+    vec2 b = {
+        (width / 4) * 1,
+        (height / 4) * 3
+    };
 
-    draw_line(cbuffer, ax, ay, bx, by, shader);
+    vec2 c = {
+        (width / 4) * 3,
+        (height / 4) * 3
+    };
 
-    ax = bx;
-    ay = by;
-
-    bx = (width / 4) * 1;
-
-    draw_line(cbuffer, ax, ay, bx, by, shader);
-
-    ax = bx;
-    ay = by;
-
-    bx = width / 2;
-    by = (height / 4) * 1;
-
-    draw_line(cbuffer, ax, ay, bx, by, shader);
+    draw_triangle(cbuffer, a, b, c, COLOR); 
+    draw_circle(cbuffer, a, 10, 1- COLOR);
+    draw_circle(cbuffer, b, 10, 1- COLOR);
+    draw_circle(cbuffer, c, 10, 1- COLOR);
 }
