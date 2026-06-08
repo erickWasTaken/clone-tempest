@@ -11,7 +11,12 @@ typedef struct{
 
 vec2 vec2_sub(vec2 a, vec2 b);
 vec2 vec2_sum(vec2 a, vec2 b);
+vec2 vec2_mul(vec2 a, float s);
+
+vec2 vec2_norm(vec2 v);
+vec2 vec2_perp(vec2 a, vec2 b);
 
 float cross(vec2 a, vec2 b);
+float vec2_magnitude(vec2 v);
 
 #endif

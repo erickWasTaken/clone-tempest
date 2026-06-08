@@ -8,24 +8,12 @@
 #include "util.h"
 #include "meth.h"
 
-#define THICKNESS (8)
-
 void draw_pixel(colorbuffer* cbuffer, int x, int y, uint32_t color){
     int width = cbuffer->width;
     int height = cbuffer->height;
 
     if(x < 0 || x >= width || y < 0 || y >= height) return;
     cbuffer->buffer[y * width + x] = color;
-}
-
-void draw_horizontalstripe(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
-        for(int i = size; i--; )
-            draw_pixel(cbuffer, x + i, y, color);
-}
-
-void draw_verticalstripe(colorbuffer* cbuffer, int x, int y, int size, uint32_t color){
-        for(int j = size; j--; )
-            draw_pixel(cbuffer, x, y + j, color);
 }
 
 void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader shader){
@@ -50,8 +38,8 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader 
         uint32_t color = shader(t);
         t += c;
 
-        if(steep) draw_horizontalstripe(cbuffer, y, x, THICKNESS, color);
-        else draw_verticalstripe(cbuffer, x, y, THICKNESS, color);
+        if(steep) draw_pixel(cbuffer, y, x, color);
+        else draw_pixel(cbuffer, x, y, color);
 
         error += 2 * abs(by - ay);
         if(error){
@@ -111,14 +99,14 @@ void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color)
 void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color){
     for(int y = size * 2; y--; ){
         for(int x = size * 2; x--; ){
-            float dx = x - size;
-            float dy = y - size;
+            float dx = (x + 0.5f) - size;
+            float dy = (y + 0.5f) - size;
 
             if(dx * dx + dy * dy <= size * size)
                 draw_pixel(
                         cbuffer, 
-                        (p.x + x) - size, 
-                        (p.y + y) - size, 
+                        (p.x + (x + 0.5f)) - size, 
+                        (p.y + (y + 0.5f)) - size, 
                         color
                 );
         }
