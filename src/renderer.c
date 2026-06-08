@@ -49,6 +49,14 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader 
     }
 }   
 
+void draw_line_mesh(colorbuffer* cbuffer, vec2 a, vec2 b, float width, lineshader shader){
+    vec2 p = vec2_mul(vec2_perp(a, b), width);    
+    uint32_t color = shader(0);
+    
+    draw_triangle(cbuffer, a, b, vec2_sum(a, p), color);
+    draw_triangle(cbuffer, a, b, vec2_sum(b, p), 1- color);
+}
+
 void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color){
     if(c.y < a.y){
         SWAP(&c.y, &a.y);
