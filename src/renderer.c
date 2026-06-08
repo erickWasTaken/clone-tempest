@@ -49,21 +49,23 @@ void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader 
     }
 }   
 
-void draw_line_mesh(colorbuffer* cbuffer, vec2 a, vec2 b, float width, lineshader shader){
-    vec2 p = vec2_mul(vec2_perp(a, b), width);    
-    uint32_t color = shader(0);
+void draw_line_mesh(colorbuffer* cbuffer, vec2 a, vec2 b, float width, uint32_t color){
+    vec2 p = vec2_mul(vec2_perp(a, b), width);
     
     draw_triangle(cbuffer, a, b, vec2_sum(a, p), color);
-    draw_triangle(cbuffer, a, b, vec2_sum(b, p), 1- color);
+    draw_triangle(cbuffer, a, b, vec2_sum(b, p), 1-color);
 }
 
 void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color){
     if(c.y < a.y){
         SWAP(&c.y, &a.y);
+        SWAP(&c.x, &a.x);
     }if(b.y < a.y){
         SWAP(&b.y, &a.y);
+        SWAP(&b.x, &a.x);
     }if(c.y < b.y){
         SWAP(&c.y, &b.y);
+        SWAP(&c.x, &b.x);
     }
 
     float area     = cross(vec2_sub(b, a), vec2_sub(c, a)); 
@@ -71,7 +73,7 @@ void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color)
     float ac_slope = vec2_sub(c, a).x / vec2_sub(c, a).y;
     float bc_slope = vec2_sub(c, b).x / vec2_sub(c, b).y;
 
-    if(area > 0) return;
+    // if(area > 0) return;
 
     if(a.y != b.y){
         for(int y = a.y; y < b.y; y++){
@@ -90,7 +92,7 @@ void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color)
 
     if(b.y != c.y){
         for(int y = b.y; y <= c.y; y++){
-            float xstart = a.x + (y - a.y) * ab_slope;
+            float xstart = a.x + (y - a.y) * ac_slope;
             float xend   = b.x + (y - b.y) * bc_slope;
 
             if(xend < xstart){

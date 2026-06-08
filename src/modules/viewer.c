@@ -40,19 +40,13 @@ void module_render(colorbuffer* cbuffer){
         (height / 4) * 3
     };
 
-    // draw_triangle(cbuffer, a, b, c, COLOR); 
-    
-    draw_line(cbuffer, a.x, a.y, b.x, b.y, solidcolor_line);
-    vec2 p = vec2_mul(vec2_perp(a, b), 10);
-    draw_line(cbuffer, a.x, a.y, (a.x + p.x), (a.y + p.y), solidcolor_line);
+    // draw_line(cbuffer, a.x, a.y, b.x, b.y, solidcolor_line);
+    draw_line_mesh(cbuffer, a, b, 10.0f, COLOR); 
 
-    draw_line(cbuffer, b.x, b.y, c.x, c.y, solidcolor_line);
-    p = vec2_mul(vec2_perp(b, c), 10);
-    draw_line(cbuffer, b.x, b.y, (b.x + p.x), (b.y + p.y), solidcolor_line);
+    // draw_line(cbuffer, b.x, b.y, c.x, b.y, solidcolor_line);
+    draw_line_mesh(cbuffer, b, c, 10.0f, COLOR); 
 
-    draw_line(cbuffer, c.x, c.y, a.x, a.y, solidcolor_line);
-    p = vec2_mul(vec2_perp(c, a), 10);
-    draw_line(cbuffer, c.x, c.y, (c.x + p.x), (c.y + p.y), solidcolor_line);
-
+    // draw_line(cbuffer, a.x, a.y, b.x, b.y, solidcolor_line);
+    draw_line_mesh(cbuffer, c, a, 10.0f, COLOR); 
 }
 

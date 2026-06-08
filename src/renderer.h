@@ -11,6 +11,8 @@ typedef uint32_t (*lineshader)(float t);
 
 void draw_pixel(colorbuffer* cbuffer, int x, int y, uint32_t color);
 void draw_line(colorbuffer* cbuffer, int ax, int ay, int bx, int by, lineshader shader);
+void draw_line_mesh(colorbuffer* cbuffer, vec2 a, vec2 b, float width, uint32_t color);
+
 void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color);
 void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color);
 
