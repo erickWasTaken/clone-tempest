@@ -53,7 +53,7 @@ void draw_line_mesh(colorbuffer* cbuffer, vec2 a, vec2 b, float width, uint32_t 
     vec2 p = vec2_mul(vec2_perp(a, b), width);
     
     draw_triangle(cbuffer, a, b, vec2_sum(a, p), color);
-    draw_triangle(cbuffer, a, b, vec2_sum(b, p), 1-color);
+    draw_triangle(cbuffer, a, b, vec2_sum(b, p), color);
 }
 
 void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color){
