@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+// #include <limits.h>
+#include <float.h>
 
 #include "texture.h"
 #include "renderer.h"
@@ -122,3 +124,49 @@ void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color){
         }
     }
 }
+
+float distance_to_line(vec2 a, vec2 b, vec2 p){
+    vec2 ab = vec2_sub(b, a);
+    vec2 ap = vec2_sub(p, a);
+
+    float scale = vec2_dot(ap, ab) / vec2_dot(ab, ab);
+    vec2 v = vec2_sub(ap, vec2_mul(ab, scale));
+    return vec2_dot(v, v);
+}
+
+void bounding_box(float* left, float* right, float* top, float* bottom, vec2* vertices, int vertcount){
+    *left   = FLT_MAX; 
+    *right  = FLT_MIN; 
+    *top    = FLT_MAX; 
+    *bottom = FLT_MIN; 
+
+    for(int i = vertcount; --i; ){
+        vec2 c = vertices[i];
+
+        if(c.x < *left)   *left = c.x;
+        if(c.x > *right)  *right = c.x;
+        if(c.y < *top)    *top = c.y;
+        if(c.y > *bottom) *bottom = c.y;
+    }
+}
+
+void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int segcount, float thickness, uint32_t color){
+    float left, right; 
+    float top, bottom; 
+
+    bounding_box(&left, &right, &top, &bottom, vertices, segcount * 2);
+    for(int k = segcount; k--; ){
+        vec2 a = vertices[k * 2 + 0];
+        vec2 b = vertices[k * 2 + 1];
+
+        for(int j = top - thickness; j <= bottom + thickness; j++){
+            for(int i = left - thickness; i <= right + thickness; i++){
+                float dist = distance_to_line(a, b, (vec2){i, j});
+
+                if(dist > thickness * thickness) continue;
+                draw_pixel(cbuffer, i, j, color);
+            }
+        }
+    }
+}
+

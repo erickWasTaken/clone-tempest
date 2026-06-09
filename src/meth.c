@@ -52,3 +52,7 @@ vec2 vec2_perp(vec2 a, vec2 b){
          v.x / mag
     };
 }
+
+float vec2_dot(vec2 a, vec2 b){
+    return a.x * b.x + a.y * b.y;
+}
