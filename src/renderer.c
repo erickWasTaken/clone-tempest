@@ -125,13 +125,13 @@ void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color){
     }
 }
 
-float distance_to_line(vec2 a, vec2 b, vec2 p){
+float distance_to_line(vec2 a, vec2 b, vec2 p, float r){
     vec2 ab = vec2_sub(b, a);
     vec2 ap = vec2_sub(p, a);
 
-    float scale = vec2_dot(ap, ab) / vec2_dot(ab, ab);
+    float scale = MIN(1, MAX(0, vec2_dot(ap, ab) / vec2_dot(ab, ab)));
     vec2 v = vec2_sub(ap, vec2_mul(ab, scale));
-    return vec2_dot(v, v);
+    return vec2_dot(v, v) - r;
 }
 
 void bounding_box(float* left, float* right, float* top, float* bottom, vec2* vertices, int vertcount){
@@ -161,7 +161,7 @@ void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int segcount, float thicknes
 
         for(int j = top - thickness; j <= bottom + thickness; j++){
             for(int i = left - thickness; i <= right + thickness; i++){
-                float dist = distance_to_line(a, b, (vec2){i, j});
+                float dist = distance_to_line(a, b, (vec2){i, j}, thickness);
 
                 if(dist > thickness * thickness) continue;
                 draw_pixel(cbuffer, i, j, color);

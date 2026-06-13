@@ -4,6 +4,8 @@
 #include <math.h>
 
 #define M_TAU (M_PI * 2)
+#define MIN(a, b)  ((b) < (a) ? (b) : (a))
+#define MAX(a, b)  ((b) > (a) ? (b) : (a))
 
 typedef struct{
     float x, y;
