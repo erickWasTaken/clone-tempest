@@ -25,33 +25,6 @@ void module_render(colorbuffer* cbuffer){
     int width  = cbuffer->width;
     int height = cbuffer->height;
 
-    // vec2 vertices[] = {
-    //     (vec2){             // A
-    //         width / 2,
-    //         (height / 4) * 1
-    //     },
-    //     (vec2){             // B
-    //         (width / 4) * 1,
-    //         (height / 4) * 3
-    //     },                  
-    //     (vec2){             // B
-    //         (width / 4) * 1,
-    //         (height / 4) * 3
-    //     },   
-    //     (vec2){             // C
-    //         (width / 4) * 3,
-    //         (height / 4) * 3
-    //     },
-    //     (vec2){             // C
-    //         (width / 4) * 3,
-    //         (height / 4) * 3
-    //     },
-    //     (vec2){             // A
-    //         width / 2,
-    //         (height / 4) * 1
-    //     }
-    // };
-
     vec2 vertices[] = {
         (vec2){             // A
             width / 2,
@@ -64,7 +37,7 @@ void module_render(colorbuffer* cbuffer){
         (vec2){             // B
             (width / 4) * 1,
             (height / 4) * 3
-            },   
+        },   
         (vec2){             // C
             (width / 4) * 3,
             (height / 4) * 3
@@ -79,6 +52,6 @@ void module_render(colorbuffer* cbuffer){
         }
     };
 
-    draw_sdf(cbuffer, vertices, sizeof(vertices) / (sizeof(vec2) * 2), 8.0f, COLOR);
+    draw_sdf(cbuffer, vertices, sizeof(vertices) / sizeof(vec2), 8.0f, COLOR);
 }
 

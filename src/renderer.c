@@ -140,7 +140,7 @@ void bounding_box(float* left, float* right, float* top, float* bottom, vec2* ve
     *top    = FLT_MAX; 
     *bottom = FLT_MIN; 
 
-    for(int i = vertcount; --i; ){
+    for(int i = vertcount; i--; ){ // the condition argument might be evaluated after the arithmetic inside it
         vec2 c = vertices[i];
 
         if(c.x < *left)   *left = c.x;
@@ -150,11 +150,12 @@ void bounding_box(float* left, float* right, float* top, float* bottom, vec2* ve
     }
 }
 
-void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int segcount, float thickness, uint32_t color){
+void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int vertcount, float thickness, uint32_t color){
     float left, right; 
     float top, bottom; 
 
-    bounding_box(&left, &right, &top, &bottom, vertices, segcount * 2);
+    bounding_box(&left, &right, &top, &bottom, vertices, vertcount);
+    int segcount = vertcount / 2;
     for(int k = segcount; k--; ){
         vec2 a = vertices[k * 2 + 0];
         vec2 b = vertices[k * 2 + 1];
