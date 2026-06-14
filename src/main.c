@@ -35,8 +35,17 @@ unsigned lastframe = 0;
 const char* dll_path = "module.so";
 const char* dll_load_path = "module_load.so";
 
+typedef bool (*init_func)(int width, int height);
+typedef void (*input_func)(SDL_Event evt);
+typedef void (*update_func)(float time, float deltatime);
 typedef void (*render_func)(colorbuffer* cbuffer);
+
+init_func init_module;
+input_func input_module;
+update_func update_module;
 render_func render_module;
+
+void update_dll();
 
 #ifdef VIEWER
 #include "./modules/viewer.h"
@@ -82,8 +91,12 @@ bool init(){
 
     if(!cbuffer) goto abort;
 
+    update_dll();
+
     srand(time(NULL));
-    running = true;
+    success &= init_module(R_WIDTH, R_HEIGHT);
+
+    running = success;
 abort:
     const char* err;
     err = SDL_GetError();
@@ -192,7 +205,11 @@ void update_dll(){
             return;
         } 
 
+        init_module   = (init_func)load_dynamic_function(dll, "module_init");
+        input_module  = (input_func)load_dynamic_function(dll, "module_input");
+        update_module = (update_func)load_dynamic_function(dll, "module_update");
         render_module = (render_func)load_dynamic_function(dll, "module_render");
+
         if(!render_module){
             printf("%s\n", dlerror());
             return;
@@ -215,6 +232,8 @@ void update(void){
 
     deltatime = now - lastframe;
     lastframe = now;
+
+    update_module(lastframe, deltatime);
 }
 
 void input(void){
@@ -229,6 +248,8 @@ void input(void){
 
             switch(key.sym){}
         }
+
+        input_module(evt);
     }
 }
 
@@ -279,6 +300,7 @@ void render(void){
 
 int main(){
     init();
+    printf("successfully initialized all modules");
 
     while(running){
         input();

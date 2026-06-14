@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-// #include <limits.h>
 #include <float.h>
 
 #include "texture.h"
@@ -125,36 +124,11 @@ void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color){
     }
 }
 
-float distance_to_line(vec2 a, vec2 b, vec2 p, float r){
-    vec2 ab = vec2_sub(b, a);
-    vec2 ap = vec2_sub(p, a);
-
-    float scale = MIN(1, MAX(0, vec2_dot(ap, ab) / vec2_dot(ab, ab)));
-    vec2 v = vec2_sub(ap, vec2_mul(ab, scale));
-    return vec2_dot(v, v) - r;
-}
-
-void bounding_box(float* left, float* right, float* top, float* bottom, vec2* vertices, int vertcount){
-    *left   = FLT_MAX; 
-    *right  = FLT_MIN; 
-    *top    = FLT_MAX; 
-    *bottom = FLT_MIN; 
-
-    for(int i = vertcount; i--; ){ // the condition argument might be evaluated after the arithmetic inside it
-        vec2 c = vertices[i];
-
-        if(c.x < *left)   *left = c.x;
-        if(c.x > *right)  *right = c.x;
-        if(c.y < *top)    *top = c.y;
-        if(c.y > *bottom) *bottom = c.y;
-    }
-}
-
 void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int vertcount, float thickness, uint32_t color){
     float left, right; 
     float top, bottom; 
 
-    bounding_box(&left, &right, &top, &bottom, vertices, vertcount);
+    get_boundingbox(&left, &right, &top, &bottom, vertices, vertcount);
     int segcount = vertcount / 2;
     for(int k = segcount; k--; ){
         vec2 a = vertices[k * 2 + 0];

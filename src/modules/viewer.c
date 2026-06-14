@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <stdbool.h>
+#include <SDL2/SDL.h>
 
 #include "./viewer.h"
 #include "../renderer.h"
@@ -8,6 +10,14 @@
 #define COLOR (0xffffff88)
 
 lineshader shader = dashed_line;
+
+float _time;
+float _deltatime;
+
+vec2* vertices;
+int vcount;
+int scrn_x;
+int scrn_y;
 
 uint32_t dashed_line(float t){
     int segs = 10;
@@ -21,11 +31,11 @@ uint32_t solidcolor_line(float t){
     return COLOR;
 }
 
-void module_render(colorbuffer* cbuffer){
-    int width  = cbuffer->width;
-    int height = cbuffer->height;
+bool module_init(int width, int height){
+    scrn_x = width;
+    scrn_y = height;
 
-    vec2 vertices[] = {
+    vec2 tmp[] = {
         (vec2){             // A
             width / 2,
             (height / 4) * 1
@@ -52,6 +62,66 @@ void module_render(colorbuffer* cbuffer){
         }
     };
 
-    draw_sdf(cbuffer, vertices, sizeof(vertices) / sizeof(vec2), 8.0f, COLOR);
+    vcount = sizeof(tmp) / sizeof(vec2);
+    vertices = (vec2*)malloc(sizeof(vec2) * vcount);
+    if(!vertices) return false;
+
+    for(int i = vcount; i--; vertices[i] = tmp[i]);
+    return true;
 }
 
+void module_input(SDL_Event evt){
+    switch(evt.type){
+        case SDL_KEYDOWN:
+                switch(evt.key.keysym.sym){
+                    case SDLK_a:
+                        break;
+
+                    case SDLK_d:
+                        break;
+
+                    case SDLK_w:
+                        break;
+
+                    case SDLK_s:
+                        break;
+                }
+            break;
+    }
+}
+
+void module_update(float time, float deltatime){
+    _time = time;
+    _deltatime = deltatime;
+}
+
+void module_render(colorbuffer* cbuffer){
+    float ang = (M_TAU / 20) * _time / 1000.0f;
+    vec3 axis = {0, 0, ang};
+    vec2 origin = {scrn_x / 2, scrn_y / 2};
+
+    vec2 mesh[vcount];
+    for(int i = vcount; i--; mesh[i] = vertices[i]);
+
+    for(int i = vcount; i--; ){
+        vec3 vert = {
+            mesh[i].x,
+            mesh[i].y,
+            0.0f
+        };
+
+        mat3 model = id_matrix();
+        rotate(axis, &model);
+
+        vert.x -= origin.x;
+        vert.y -= origin.y;
+        vec3 res = mat_vec_mul(model, vert);
+        res.x += origin.x;
+        res.y += origin.y;
+
+        mesh[i].x = res.x;
+        mesh[i].y = res.y;
+    }
+
+    draw_sdf(cbuffer, mesh, vcount, 6.0f, COLOR);
+}

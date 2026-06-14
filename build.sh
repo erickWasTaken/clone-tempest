@@ -3,6 +3,7 @@
 CC="gcc"
 SRCS="./src/*.c"
 DIR="./builds"
+OPT="-Wall -Wno-switch -O3"
 
 declare -A argmap=(
     ["--name"]="NAME"
@@ -38,10 +39,10 @@ else
 fi
 
 rm -f module_*
-$CC -g $SRCS "./src/modules/viewer.c" -shared -fPIC -o module_$timestamp.so $warnings -D$DFLAGS
+$CC $OPT -g $SRCS "./src/modules/viewer.c" -shared -fPIC -o module_$timestamp.so $warnings -D$DFLAGS
 mv module_$timestamp.so module.so
 
-$CC $includes -g $SRCS -o$NAME $libs $warnings -D$DFLAGS
+$CC $OPT $includes -g $SRCS -o$NAME $libs $warnings -D$DFLAGS
 mkdir -p $DIR
 mv $NAME $DIR
 
