@@ -60,9 +60,9 @@ float vec2_dot(vec2 a, vec2 b){
 
 void get_boundingbox(float* left, float* right, float* top, float* bottom, vec2* vertices, int vertcount){
     *left   = FLT_MAX; 
-    *right  = FLT_MIN; 
+    *right  = -FLT_MAX; 
     *top    = FLT_MAX; 
-    *bottom = FLT_MIN; 
+    *bottom = -FLT_MAX; 
 
     for(int i = vertcount; i--; ){ // the condition argument might be evaluated after the arithmetic inside it
         vec2 c = vertices[i];
@@ -129,8 +129,8 @@ void rotate(vec3 rot, mat3* mat){
 void translate(vec2 trans, mat3* mat){
     vec3* row = mat->row;
 
-    mat->row[0].z = trans.x;
-    mat->row[1].z = trans.y;
+    row[0].z = trans.x;
+    row[1].z = trans.y;
 }
 
 mat3 mat_mat_mul(mat3 a, mat3 b){

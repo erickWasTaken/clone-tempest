@@ -124,15 +124,18 @@ void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color){
     }
 }
 
-void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int* indices, int vertcount, float thickness, uint32_t color){
+void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int* indices, int vertcount, int indexcount,float thickness, uint32_t color){
     float left, right; 
     float top, bottom; 
 
     get_boundingbox(&left, &right, &top, &bottom, vertices, vertcount);
-    int segcount = vertcount / 2;
-    for(int k = segcount; k--; ){
-        vec2 a = vertices[k * 2 + 0];
-        vec2 b = vertices[k * 2 + 1];
+
+    for(int k = indexcount-1; k--; ){
+        int ia = indices[k + 0];
+        int ib = indices[k + 1];
+
+        vec2 a = vertices[ia];
+        vec2 b = vertices[ib];
 
         for(int j = top - thickness; j <= bottom + thickness; j++){
             for(int i = left - thickness; i <= right + thickness; i++){

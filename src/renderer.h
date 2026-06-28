@@ -15,6 +15,6 @@ void draw_line_mesh(colorbuffer* cbuffer, vec2 a, vec2 b, float width, uint32_t 
 
 void draw_triangle(colorbuffer* cbuffer, vec2 a, vec2 b, vec2 c, uint32_t color);
 void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color);
-void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int* indices, int vertcount, float thickness, uint32_t color);
+void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int* indices, int vertcount, int indexcount, float thickness, uint32_t color);
 
 #endif

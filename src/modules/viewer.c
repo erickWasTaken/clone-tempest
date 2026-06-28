@@ -6,6 +6,7 @@
 #include "../renderer.h"
 #include "../texture.h"
 #include "../meth.h"
+#include "../geometry.h"
 
 #define COLOR (0xffffff88)
 
@@ -135,5 +136,5 @@ void module_render(colorbuffer* cbuffer){
         mesh[i].y = res.y;
     }
 
-    draw_sdf(cbuffer, mesh, indices, idxcount, 6.0f, COLOR);
+    draw_sdf(cbuffer, mesh, indices, vcount, idxcount, 6.0f, COLOR);
 }
