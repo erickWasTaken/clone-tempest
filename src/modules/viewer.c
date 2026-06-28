@@ -15,7 +15,11 @@ float _time;
 float _deltatime;
 
 vec2* vertices;
+int* indices;
+
 int vcount;
+int idxcount;
+
 int scrn_x;
 int scrn_y;
 
@@ -44,29 +48,29 @@ bool module_init(int width, int height){
             (width / 4) * 1,
             (height / 4) * 3
         },                  
-        (vec2){             // B
-            (width / 4) * 1,
-            (height / 4) * 3
-        },   
         (vec2){             // C
             (width / 4) * 3,
             (height / 4) * 3
         },
-        (vec2){             // C
-            (width / 4) * 3,
-            (height / 4) * 3
-        },
-        (vec2){             // A
-            width / 2,
-            (height / 4) * 1
-        }
+    };
+
+    int idx[] = {
+        0, 1,
+        0, 2,
+        1, 2
     };
 
     vcount = sizeof(tmp) / sizeof(vec2);
     vertices = (vec2*)malloc(sizeof(vec2) * vcount);
-    if(!vertices) return false;
+
+    idxcount = sizeof(idx) / sizeof(int);
+    indices = (int*)malloc(sizeof(int) * idxcount);
+
+    if(!vertices || !indices) return false;
 
     for(int i = vcount; i--; vertices[i] = tmp[i]);
+    for(int i = idxcount; i--; indices[i] = idx[i]);
+
     return true;
 }
 
@@ -131,5 +135,5 @@ void module_render(colorbuffer* cbuffer){
         mesh[i].y = res.y;
     }
 
-    draw_sdf(cbuffer, mesh, vcount, 6.0f, COLOR);
+    draw_sdf(cbuffer, mesh, indices, idxcount, 6.0f, COLOR);
 }

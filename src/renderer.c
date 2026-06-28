@@ -124,7 +124,7 @@ void draw_circle(colorbuffer* cbuffer, vec2 p, int size, uint32_t color){
     }
 }
 
-void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int vertcount, float thickness, uint32_t color){
+void draw_sdf(colorbuffer* cbuffer, vec2* vertices, int* indices, int vertcount, float thickness, uint32_t color){
     float left, right; 
     float top, bottom; 
 
