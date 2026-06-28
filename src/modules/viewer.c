@@ -107,17 +107,25 @@ void module_render(colorbuffer* cbuffer){
         vec3 vert = {
             mesh[i].x,
             mesh[i].y,
-            0.0f
+            1.0f
         };
 
-        mat3 model = id_matrix();
-        rotate(axis, &model);
+        // printf("\x1B[2J\n");
+        // printf("\x1B[H\n");
+        //
+        // printf("vert before transformations:\nx: %.2f, y: %.2f, z: %.2f\n", vert.x, vert.y, vert.z);
 
-        vert.x -= origin.x;
-        vert.y -= origin.y;
+        mat3 model = id_matrix();
+        translate((vec2){-origin.x, -origin.y}, &model);
+
         vec3 res = mat_vec_mul(model, vert);
-        res.x += origin.x;
-        res.y += origin.y;
+
+        rotate(axis, &model);
+        translate((vec2){origin.x, origin.y}, &model);
+
+        res = mat_vec_mul(model, res);
+
+        // printf("vert after transformations:\nx: %.2f, y: %.2f, z: %.2f\n", res.x, res.y, res.z);
 
         mesh[i].x = res.x;
         mesh[i].y = res.y;

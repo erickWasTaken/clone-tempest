@@ -111,7 +111,7 @@ void rotate(vec3 rot, mat3* mat){
     mat3 ry_mat = {
         (vec3){cos(rot.y),  0.0f, sin(rot.y)},
         (vec3){0.0f,        1.0f,       0.0f},
-        (vec3){-sin(rot.y), 0.0f, cos(rot.x)},
+        (vec3){-sin(rot.y), 0.0f, cos(rot.y)},
     };
 
     mat3 rz_mat = {
@@ -126,14 +126,11 @@ void rotate(vec3 rot, mat3* mat){
     *mat = mat_mat_mul(*mat, rot_mat);
 }
 
-void translate(vec3 trans, mat3* mat){
+void translate(vec2 trans, mat3* mat){
     vec3* row = mat->row;
 
-    *mat = (mat3){
-        (vec3){row[0].x + trans.x, row[0].y + trans.y, row[0].z + trans.z},
-        (vec3){row[1].x + trans.x, row[1].y + trans.y, row[1].z + trans.z},
-        (vec3){row[2].x + trans.x, row[2].y + trans.y, row[2].z + trans.z}
-    };
+    mat->row[0].z = trans.x;
+    mat->row[1].z = trans.y;
 }
 
 mat3 mat_mat_mul(mat3 a, mat3 b){

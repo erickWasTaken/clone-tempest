@@ -39,7 +39,7 @@ mat3 id_matrix();
 
 void scale(vec3 scale, mat3* mat);
 void rotate(vec3 rot, mat3* mat);
-void translate(vec3 trans, mat3* mat);
+void translate(vec2 trans, mat3* mat);
 
 mat3 mat_mat_mul(mat3 a, mat3 b);
 vec3 mat_vec_mul(mat3 mat, vec3 vec);
